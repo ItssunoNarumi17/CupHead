@@ -2,7 +2,11 @@ const express = require('express');
 const cors = require('cors');
 const { conectarDB } = require('./database');
 const { ObjectId } = require('mongodb');
-const path = require('path'); // Módulo necesario para manejar rutas de archivos
+const path = require('path');
+
+// Esto le dice a Express que busque los archivos (css, js, img) 
+// subiendo un nivel desde la carpeta 'backend'
+app.use(express.static(path.join(__dirname, '../')));
 
 const app = express();
 
