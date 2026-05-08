@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Multimedia</title>
+    <link rel="stylesheet" href="estilos.css">
+</head>
+<body class="contenedor-layout">
+    <header><h1>GALERÍA Y CINE</h1>
+    <button id="theme-toggle">Modo Obscuro</button>
+    </header>
+    <nav><a href="index.html">Inicio</a> | <a href="tabla.html">Tabla</a> | <a href="formulario.html">Formulario</a> | <a href="multimedia.html">Multimedia</a> | <a href="historia.html">Historia</a> | <a href="crud.html">CRUD</a></nav>
+    <main>
+        <section class="intro-box">
+            <h2>Galería Interactiva</h2>
+            <img id="main-gal" src="img/cuphead1.jpg">
+            <div style="display:flex; gap:10px; justify-content:center">
+                <img src="img/cuphead1.jpg" style="width:50px" onclick="document.getElementById('main-gal').src=this.src">
+                <img src="img/cuphead2.jpg" style="width:50px" onclick="document.getElementById('main-gal').src=this.src">
+                <img src="img/cuphead3.jpg" style="width:50px" onclick="document.getElementById('main-gal').src=this.src">
+            </div>
+        </section>
+        <section class="intro-box">
+            <h3>Audio y Video</h3>
+            <audio controls><source src="audio/soundtrack_ Ruse Of An Ooze.mp3"></audio>
+            <video controls width="100%"><source src="video/trailerxbox_cuphead.mp4"></video>
+        </section>
+    </main>
+    <script src="script.js"></script>
+</body>
+</html>
