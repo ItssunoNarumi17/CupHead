@@ -4,91 +4,54 @@ const { conectarDB } = require('./database');
 const { ObjectId } = require('mongodb');
 const path = require('path');
 
-const app = express(); // 1. Primero inicializamos la app
+const app = express();
 
-// 2. Configuramos los middlewares básicos
+// Middlewares
 app.use(express.json());
 app.use(cors());
 
-// 3. Servimos archivos estáticos (HTML, CSS, JS, imágenes)
-// Subimos un nivel (../) porque este archivo está dentro de la carpeta 'backend'
-app.use(express.static(path.join(__dirname, '../'))); 
+// SERVIR ARCHIVOS ESTÁTICOS
+// Esto es lo que hace que carguen tus estilos, imágenes y el JS del frontend
+app.use(express.static(path.join(__dirname, '../')));
 
-// Puerto asignado por Render o 3000 por defecto para local
 const PORT = process.env.PORT || 3000;
-
 let db;
 
-// Conexión inicial y arranque del servidor
 conectarDB().then(database => {
     db = database;
     app.listen(PORT, () => {
-        console.log(`🚀 Servidor Cuphead corriendo en el puerto: ${PORT}`);
+        console.log(`🚀 Servidor Cuphead listo en el puerto: ${PORT}`);
     });
 }).catch(err => {
-    console.error("Fallo crítico al iniciar la base de datos:", err);
+    console.error("Fallo crítico en DB:", err);
 });
 
 // --- FUNCIONES GENÉRICAS PARA EL CRUD ---
 const gestionarRutas = (coleccion) => {
-    
-    // Obtener todos los registros (Read)
     app.get(`/api/${coleccion}`, async (req, res) => {
         try {
             const data = await db.collection(coleccion).find({}).toArray();
             res.json(data);
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
+        } catch (error) { res.status(500).json({ error: error.message }); }
     });
 
-    // Crear nuevo registro (Create)
     app.post(`/api/${coleccion}`, async (req, res) => {
         try {
             const resultado = await db.collection(coleccion).insertOne(req.body);
             res.json({ success: true, id: resultado.insertedId });
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
+        } catch (error) { res.status(500).json({ error: error.message }); }
     });
 
-    // Actualizar registro existente (Update)
-    app.put(`/api/${coleccion}/:id`, async (req, res) => {
-        try {
-            const id = req.params.id;
-            if (!ObjectId.isValid(id)) {
-                return res.status(400).json({ error: "ID no válido" });
-            }
-
-            const { _id, ...datosNuevos } = req.body; 
-            const resultado = await db.collection(coleccion).updateOne(
-                { _id: new ObjectId(id) }, 
-                { $set: datosNuevos }
-            );
-
-            res.json({ success: true, modifiedCount: resultado.modifiedCount });
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
-    });
-
-    // Eliminar registro (Delete)
     app.delete(`/api/${coleccion}/:id`, async (req, res) => {
         try {
             const id = req.params.id;
-            if (!ObjectId.isValid(id)) {
-                return res.status(400).json({ error: "ID no válido" });
-            }
-
             await db.collection(coleccion).deleteOne({ _id: new ObjectId(id) });
             res.json({ success: true });
-        } catch (error) {
-            res.status(500).json({ error: error.message });
-        }
+        } catch (error) { res.status(500).json({ error: error.message }); }
     });
 };
 
-// Rutas activas
+// Activamos las rutas para tus 3 colecciones
 gestionarRutas('inventario');
 gestionarRutas('experiencias');
 gestionarRutas('jefes');

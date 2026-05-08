@@ -1,122 +1,75 @@
 document.addEventListener('DOMContentLoaded', () => {
-    
+    // URL de tu API en Render (Cambia esto por tu link real de Render)
+    const API_BASE_URL = "https://cuphead-8l18.onrender.com/api";
 
+    // --- 1. MODO OSCURO PERSISTENTE ---
     const themeBtn = document.getElementById('theme-toggle');
-    const body = document.body;
-
- 
     if (localStorage.getItem('theme') === 'dark') {
-        body.classList.add('dark-theme');
+        document.body.classList.add('dark-theme');
     }
 
     if (themeBtn) {
         themeBtn.addEventListener('click', () => {
-            body.classList.toggle('dark-theme');
-            const mode = body.classList.contains('dark-theme') ? 'dark' : 'light';
+            document.body.classList.toggle('dark-theme');
+            const mode = document.body.classList.contains('dark-theme') ? 'dark' : 'light';
             localStorage.setItem('theme', mode);
         });
     }
 
-
-    const likeBtn = document.getElementById('like-btn');
-    const likeCountDisp = document.getElementById('like-count');
-    let totalLikes = localStorage.getItem('likes-count') || 0;
-
-    if (likeCountDisp) likeCountDisp.textContent = totalLikes;
-
-    if (likeBtn) {
-        likeBtn.addEventListener('click', () => {
-            totalLikes++;
-            localStorage.setItem('likes-count', totalLikes);
-            likeCountDisp.textContent = totalLikes;
-        });
-    }
-
-
-    const form = document.getElementById('cuphead-form');
-    if (form) {
-        form.addEventListener('submit', (e) => {
+    // --- 2. LÓGICA DEL CRUD (Tienda y Batallas) ---
+    const formCuphead = document.getElementById('cuphead-form');
+    if (formCuphead) {
+        formCuphead.addEventListener('submit', async (e) => {
+            e.preventDefault();
             const nombre = document.getElementById('nom').value;
             const email = document.getElementById('mail').value;
-            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-            if (nombre.trim() === "" || !emailRegex.test(email)) {
-                e.preventDefault(); 
-                alert("¡Alto ahí! El nombre es obligatorio y el email debe ser válido.");
-            } else {
-                alert("¡Contrato firmado! El Diablo ha recibido tus datos.");
-            }
+            // Ejemplo enviando a la colección 'experiencias'
+            try {
+                const response = await fetch(`${API_BASE_URL}/experiencias`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ jugador: nombre, email: email, fecha: new Date() })
+                });
+                if (response.ok) alert("¡Contrato firmado con el Diablo!");
+            } catch (err) { console.error("Error al conectar con la isla:", err); }
         });
     }
 
-   
-    const btnAdd = document.getElementById('add-btn');
-    const inputAdd = document.getElementById('new-item');
-    const listContainer = document.getElementById('dynamic-list');
+    // --- 3. CONTADOR DE LIKES ---
+    const likeBtn = document.getElementById('like-btn');
+    const likeCountDisp = document.getElementById('like-count');
+    let totalLikes = parseInt(localStorage.getItem('likes-count')) || 0;
 
-    if (btnAdd && inputAdd) {
-        btnAdd.addEventListener('click', () => {
-            if (inputAdd.value.trim() !== "") {
-                const nuevoItem = document.createElement('li');
-                nuevoItem.textContent = inputAdd.value;
-                listContainer.appendChild(nuevoItem);
-                inputAdd.value = ""; 
-            }
-        });
-    }
-
-    // 5. CONFIRMAR SALIDA A ENLACES EXTERNOS
-    const linksExternos = document.querySelectorAll('a[target="_blank"]');
-    linksExternos.forEach(link => {
-        link.addEventListener('click', (evento) => {
-            const respuesta = confirm("¿Estás seguro de que deseas salir de Inkwell Isle hacia un sitio externo?");
-            if (!respuesta) {
-                evento.preventDefault();
-            }
-        });
-    });
-
-   
-    const opcionesQuiz = document.querySelectorAll('.quiz-check');
-    const contadorQuiz = document.getElementById('quiz-counter');
-
-    if (opcionesQuiz.length > 0) {
-        opcionesQuiz.forEach(opcion => {
-            opcion.addEventListener('change', () => {
-                const seleccionadas = document.querySelectorAll('.quiz-check:checked').length;
-                contadorQuiz.textContent = seleccionadas;
+    if (likeCountDisp) {
+        likeCountDisp.textContent = totalLikes;
+        if (likeBtn) {
+            likeBtn.addEventListener('click', () => {
+                totalLikes++;
+                localStorage.setItem('likes-count', totalLikes);
+                likeCountDisp.textContent = totalLikes;
             });
-        });
+        }
     }
 
-    // 7. BOTÓN VOLVER ARRIBA
+    // --- 4. BOTÓN VOLVER ARRIBA ---
     const btnArriba = document.getElementById('btn-top');
-
-    // Agregamos esta condición para evitar errores en páginas donde no exista el botón
     if (btnArriba) {
-    window.addEventListener('scroll', () => {
-        if (window.scrollY > 300) {
-            btnArriba.style.display = "block";
-        } else {
-            btnArriba.style.display = "none";
-        }
-    });
-}
-
-    if (btnArriba) {
+        window.addEventListener('scroll', () => {
+            btnArriba.style.display = window.scrollY > 300 ? "block" : "none";
+        });
         btnArriba.addEventListener('click', () => {
             window.scrollTo({ top: 0, behavior: 'smooth' });
         });
     }
 });
 
+// --- 5. CARRUSEL ANIMADO ---
 let slideIndex = 0;
 function carruselAnimado() {
     const imagenes = document.getElementsByClassName("slide");
     if (imagenes.length > 0) {
-        for (let i = 0; i < imagenes.length; i++) {
-            imagenes[i].style.display = "none";
-        }
+        for (let i = 0; i < imagenes.length; i++) { imagenes[i].style.display = "none"; }
         slideIndex++;
         if (slideIndex > imagenes.length) slideIndex = 1;
         imagenes[slideIndex - 1].style.display = "block";
