@@ -4,21 +4,18 @@ const { conectarDB } = require('./database');
 const { ObjectId } = require('mongodb');
 const path = require('path');
 
-// Esto le dice a Express que busque los archivos (css, js, img) 
-// subiendo un nivel desde la carpeta 'backend'
-app.use(express.static(path.join(__dirname, '../')));
+const app = express(); // 1. Primero inicializamos la app
 
-const app = express();
-
-// Render asigna el puerto automáticamente mediante process.env.PORT
-const PORT = process.env.PORT || 3000;
-
+// 2. Configuramos los middlewares básicos
 app.use(express.json());
 app.use(cors());
 
-// --- NUEVA LÍNEA: SERVIR ARCHIVOS ESTÁTICOS ---
-// Esto permite que al entrar al link se carguen index.html, estilos.css, etc.
+// 3. Servimos archivos estáticos (HTML, CSS, JS, imágenes)
+// Subimos un nivel (../) porque este archivo está dentro de la carpeta 'backend'
 app.use(express.static(path.join(__dirname, '../'))); 
+
+// Puerto asignado por Render o 3000 por defecto para local
+const PORT = process.env.PORT || 3000;
 
 let db;
 
