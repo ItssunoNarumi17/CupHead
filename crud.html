@@ -5,21 +5,20 @@
     <title>Cuphead | Gestión Administrativa</title>
     <link rel="stylesheet" href="/css/estilos.css">
     <style>
-        .grid-triple { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; }
-        .panel-cuphead { background: rgba(0,0,0,0.85); border: 2px solid #d32f2f; border-radius: 15px; padding: 25px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
-        .panel-cuphead h2 { border-bottom: 2px solid #d32f2f; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
-        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #222; color: white; }
-        .lista-datos { list-style: none; padding: 0; margin-top: 20px; max-height: 400px; overflow-y: auto; }
-        .lista-datos li { background: rgba(255,255,255,0.05); padding: 15px; margin-bottom: 12px; border-radius: 8px; border-left: 5px solid #d32f2f; display: flex; flex-direction: column; gap: 10px; }
-        .btn-edit { background: #f39c12; color: white; border: none; padding: 8px; cursor: pointer; border-radius: 5px; flex: 1; }
-        .btn-del { background: #e74c3c; color: white; border: none; padding: 8px; cursor: pointer; border-radius: 5px; flex: 1; }
-        .btn-cancelar { background: #7f8c8d; width: 100%; margin-top: 5px; display: none; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; }
-        .acciones-fila { display: flex; gap: 10px; }
+        .grid-triple { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; padding: 20px; }
+        .panel-cuphead { background: rgba(0,0,0,0.9); border: 2px solid #d32f2f; border-radius: 10px; padding: 20px; color: white; }
+        input, select { width: 100%; padding: 10px; margin: 5px 0; border-radius: 5px; border: none; color: #000; }
+        .lista-datos { list-style: none; padding: 0; margin-top: 15px; }
+        .lista-datos li { background: rgba(255,255,255,0.1); padding: 10px; margin-bottom: 8px; border-radius: 5px; border-left: 5px solid #d32f2f; }
+        .btn-edit { background: #f39c12; color: white; border: none; padding: 5px; cursor: pointer; border-radius: 3px; margin-right: 5px; }
+        .btn-del { background: #e74c3c; color: white; border: none; padding: 5px; cursor: pointer; border-radius: 3px; }
+        .btn-cancelar { background: #7f8c8d; width: 100%; margin-top: 5px; display: none; }
     </style>
 </head>
 <body class="contenedor-layout">
     <header class="header-principal">
         <h1>SISTEMA DE CONTROL ISLAS INKWELL</h1>
+        <button id="theme-toggle">Modo Obscuro</button>
     </header>
 
     <nav>
@@ -28,69 +27,67 @@
         <a href="/formulario.html">Formulario</a> | 
         <a href="/multimedia.html">Multimedia</a> | 
         <a href="/historia.html">Historia</a> | 
-        <a href="/crud.html" style="font-weight: bold; color: #ffca28;">CRUD</a>
+        <a href="/crud.html">CRUD</a>
     </nav>
     
     <div class="grid-triple">
-        <section class="panel-cuphead" id="sec-p">
+        <section class="panel-cuphead" id="sec-inv">
             <h2>🛒 Tienda Porkind</h2>
             <input type="hidden" id="pId">
-            <input type="text" id="pNombre" placeholder="Nombre del Objeto">
-            <input type="number" id="pPrecio" placeholder="Precio (Monedas)">
-            <button id="pBtn" onclick="procesar('inventario')" class="boton" style="width:100%">Guardar Contrato</button>
-            <button id="pCancel" onclick="cancelar('p')" class="btn-cancelar">Cancelar Edición</button>
+            <input type="text" id="pNombre" placeholder="Objeto">
+            <input type="number" id="pPrecio" placeholder="Precio">
+            <button id="pBtn" onclick="procesar('inventario')" class="boton" style="width:100%">Guardar</button>
+            <button id="pCancel" onclick="cancelar('p')" class="boton btn-cancelar">Cancelar</button>
             <ul id="listaInv" class="lista-datos"></ul>
         </section>
 
-        <section class="panel-cuphead" id="sec-e">
-            <h2>🎮 Registro de Batallas</h2>
+        <section class="panel-cuphead" id="sec-exp">
+            <h2>🎮 Batallas</h2>
             <input type="hidden" id="eId">
-            <input type="text" id="eJugador" placeholder="Nombre del Jugador">
-            <input type="text" id="eJefe" placeholder="Jefe Derrotado">
-            <button id="eBtn" onclick="procesar('experiencias')" class="boton" style="width:100%">Registrar Batalla</button>
-            <button id="eCancel" onclick="cancelar('e')" class="btn-cancelar">Cancelar Edición</button>
+            <input type="text" id="eJugador" placeholder="Nickname">
+            <input type="text" id="eJefe" placeholder="Jefe derrotado">
+            <button id="eBtn" onclick="procesar('experiencias')" class="boton" style="width:100%">Registrar</button>
+            <button id="eCancel" onclick="cancelar('e')" class="boton btn-cancelar">Cancelar</button>
             <ul id="listaExp" class="lista-datos"></ul>
         </section>
 
-        <section class="panel-cuphead" id="sec-j">
+        <section class="panel-cuphead" id="sec-jef">
             <h2>👾 Lore de Jefes</h2>
             <input type="hidden" id="jId">
-            <input type="text" id="jNombre" placeholder="Nombre del Jefe">
-            <select id="jIsla">
-                <option value="Inkwell Isle I">Inkwell Isle I</option>
-                <option value="Inkwell Isle II">Inkwell Isle II</option>
-                <option value="Inkwell Isle III">Inkwell Isle III</option>
-                <option value="Inkwell Hell">Inkwell Hell</option>
-            </select>
-            <button id="jBtn" onclick="procesar('jefes')" class="boton" style="width:100%">Añadir al Lore</button>
-            <button id="jCancel" onclick="cancelar('j')" class="btn-cancelar">Cancelar Edición</button>
+            <input type="text" id="jNombre" placeholder="Nombre Jefe">
+            <select id="jIsla"><option>Inkwell Isle I</option><option>Inkwell Isle II</option><option>Inkwell Isle III</option></select>
+            <button id="jBtn" onclick="procesar('jefes')" class="boton" style="width:100%">Añadir</button>
+            <button id="jCancel" onclick="cancelar('j')" class="boton btn-cancelar">Cancelar</button>
             <ul id="listaJefes" class="lista-datos"></ul>
         </section>
     </div>
 
+    <button id="btn-top">⬆️</button>
+
+    <footer>
+        <p>Copyright &copy; 2026 - Cuphead Fan Page Arius</p>
+    </footer>
+
+    <script src="/js/script.js"></script>
+
     <script>
-        // DETECCIÓN AUTOMÁTICA DE URL (Cambia 'cuphead-8l18' por el nombre real de tu app en Render)
-        const RENDER_URL = "https://cuphead-8l18.onrender.com/api";
-        const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
-                    ? 'http://localhost:3000/api' 
-                    : RENDER_URL;
+        // CAMBIO CRÍTICO: Usamos la URL relativa para que funcione en Render
+        const API = '/api';
 
         async function cargarTodo() {
             const fetchAndRender = async (col, listId, pre, f1, f2) => {
                 try {
                     const res = await fetch(`${API}/${col}`);
                     const data = await res.json();
-                    const lista = document.getElementById(listId);
-                    lista.innerHTML = data.map(item => `
+                    document.getElementById(listId).innerHTML = data.map(item => `
                         <li>
-                            <div><strong>${item[f1]}</strong></div>
-                            <div style="font-size: 0.9em; color: #ccc;">${f2}: ${item[f2]}</div>
-                            <div class="acciones-fila">
-                                <button class="btn-edit" onclick='editar("${pre}", ${JSON.stringify(item)})'>Editar</button>
-                                <button class="btn-del" onclick="eliminar('${col}', '${item._id}')">Eliminar</button>
+                            <div><b>${item[f1]}</b> - ${item[f2]}</div>
+                            <div style="margin-top:5px">
+                                <button class="btn-edit" onclick="editar('${pre}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">Editar</button>
+                                <button class="btn-del" onclick="eliminar('${col}', '${item._id}')">Borrar</button>
                             </div>
                         </li>`).join('');
-                } catch (e) { console.error("Error cargando " + col, e); }
+                } catch (err) { console.error("Error al cargar " + col, err); }
             };
             fetchAndRender('inventario', 'listaInv', 'p', 'nombre', 'precio');
             fetchAndRender('experiencias', 'listaExp', 'e', 'jugador', 'jefe');
@@ -98,25 +95,19 @@
         }
 
         async function procesar(col) {
-            const pre = col === 'inventario' ? 'p' : col === 'experiencias' ? 'e' : 'j';
+            const pre = col[0];
             const id = document.getElementById(pre + 'Id').value;
             const payload = col === 'inventario' ? { nombre: document.getElementById('pNombre').value, precio: document.getElementById('pPrecio').value } :
                             col === 'experiencias' ? { jugador: document.getElementById('eJugador').value, jefe: document.getElementById('eJefe').value } :
                             { nombre: document.getElementById('jNombre').value, isla: document.getElementById('jIsla').value };
 
-            if(!Object.values(payload).every(val => val !== "")) return alert("Llena todos los campos");
-
-            try {
-                const method = id ? 'PUT' : 'POST';
-                const url = id ? `${API}/${col}/${id}` : `${API}/${col}`;
-                await fetch(url, {
-                    method: method,
-                    headers: {'Content-Type': 'application/json'},
-                    body: JSON.stringify(payload)
-                });
-                cancelar(pre);
-                cargarTodo();
-            } catch (e) { alert("Error al conectar con el Casino"); }
+            await fetch(id ? `${API}/${col}/${id}` : `${API}/${col}`, {
+                method: id ? 'PUT' : 'POST',
+                headers: {'Content-Type': 'application/json'},
+                body: JSON.stringify(payload)
+            });
+            cancelar(pre);
+            cargarTodo();
         }
 
         function editar(pre, item) {
@@ -129,7 +120,7 @@
         }
 
         async function eliminar(col, id) {
-            if(confirm('¿Eliminar contrato?')) {
+            if(confirm('¿Deseas eliminar este contrato del Casino?')) {
                 await fetch(`${API}/${col}/${id}`, { method: 'DELETE' });
                 cargarTodo();
             }
@@ -137,10 +128,10 @@
 
         function cancelar(pre) {
             document.getElementById(pre + 'Id').value = "";
-            const inputs = document.querySelectorAll(`#sec-${pre} input, #sec-${pre} select`);
-            inputs.forEach(i => i.value = "");
+            const inputs = document.querySelectorAll(`section[id^="sec"] input`);
+            inputs.forEach(i => { if(i.id.startsWith(pre)) i.value = ""; });
+            document.getElementById(pre + 'Btn').innerText = pre==='p'?"Guardar":pre==='e'?"Registrar":"Añadir";
             document.getElementById(pre + 'Cancel').style.display = "none";
-            document.getElementById(pre + 'Btn').innerText = "Guardar";
         }
 
         window.onload = cargarTodo;
