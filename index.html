@@ -3,31 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <title>Cuphead Project - Inicio</title>
-   <link rel="stylesheet" href="/css/estilos.css">
+    <link rel="stylesheet" href="/css/estilos.css">
 </head>
 <body class="contenedor-layout">
-    <header>
+    <header class="header-principal">
         <h1>CUPHEAD: DON'T DEAL WITH THE DEVIL</h1>
         <button id="theme-toggle">Modo Obscuro</button>
     </header>
 
-    <nav><a href="index.html">Inicio</a> | <a href="tabla.html">Tabla</a> | <a href="formulario.html">Formulario</a> | <a href="multimedia.html">Multimedia</a> | <a href="historia.html">Historia</a> | <a href="crud.html">CRUD</a></nav>
+    <nav>
+        <a href="/index.html">Inicio</a> | 
+        <a href="/tabla.html">Tabla</a> | 
+        <a href="/formulario.html">Formulario</a> | 
+        <a href="/multimedia.html">Multimedia</a> | 
+        <a href="/historia.html">Historia</a> | 
+        <a href="/crud.html">CRUD</a>
+    </nav>
 
     <main>
-        <img src="img/cuphead1.jpg" class="slide">
-        <img src="img/cuphead2.jpg" class="slide">
-        <img src="img/cuphead3.jpg" class="slide">
+        <div class="carousel">
+            <img src="/img/cuphead1.jpg" class="slide" alt="Cuphead 1">
+            <img src="/img/cuphead2.jpg" class="slide" alt="Cuphead 2">
+            <img src="/img/cuphead3.jpg" class="slide" alt="Cuphead 3">
+        </div>
 
         <section id="intro" class="intro-box">
             <h2>Introducción</h2>
             <p>Cuphead es un videojuego de plataformas independiente perteneciente al género de corre y dispara.</p>
             <p><q>Es un día perfecto para una batalla estrepitosa</q>, dicen los personajes.</p>
-            <blockquote>"Los hermanos no escucharon las advertencias y perdieron sus almas ante el Diablo."</blockquote>
+            <blockquote style="border-left: 5px solid #d32f2f; padding-left: 15px; font-style: italic;">
+                "Los hermanos no escucharon las advertencias y perdieron sus almas ante el Diablo."
+            </blockquote>
             <p>Fuente: <cite>Libro de Arte de Cuphead</cite></p>
-            <button id="like-btn">❤️</button> <span id="like-count">0</span>
+            <button id="like-btn" class="boton">❤️</button> <span id="like-count">0</span>
         </section>
 
-        <section id="detalles">
+        <section id="detalles" class="intro-box">
             <h2>Detalles del Juego</h2>
             <h3>Mundos principales:</h3>
             <ul>
@@ -41,22 +52,16 @@
                 <li>Visita a la tienda de Porkind.</li>
                 <li>Derrota al jefe final.</li>
             </ol>
-            <h3>Terminología básica:</h3>
-            <dl>
-                <dt>Soul Contract</dt>
-                <dd>Lo que obtienes al derrotar a un jefe.</dd>
-                <dt>Super Art</dt>
-                <dd>Habilidad especial de gran poder.</dd>
-            </dl>
         </section>
 
-        <aside>
-            <p>Dato: El juego vendió millones de copias gracias a su dificultad extrema y arte único.</p>
+        <aside class="intro-box" style="background: rgba(255,202,40,0.1); border-left: 5px solid #ffca28;">
+            <p><strong>Dato:</strong> El juego vendió millones de copias gracias a su dificultad extrema y arte único inspirado en los años 30.</p>
         </aside>
     </main>
 
     <button id="btn-top">↑ Arriba</button>
     <footer><p>Copyright &copy; 2026 - Cuphead Fan Page Arius</p></footer>
-    <script src="script.js"></script>
+    
+    <script src="/script.js"></script>
 </body>
 </html>

@@ -5,49 +5,12 @@
     <title>Cuphead | Gestión Administrativa</title>
     <link rel="stylesheet" href="/css/estilos.css">
     <style>
-        /* Ajustes para que el CRUD se vea bien con tu Estilos.css */
-        .grid-triple { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); 
-            gap: 20px; 
-            padding: 20px; 
-            max-width: 1200px;
-            margin: 0 auto;
-        }
-        .panel-cuphead { 
-            background: rgba(0,0,0,0.85); 
-            border: 2px solid #d32f2f; 
-            border-radius: 15px; 
-            padding: 25px; 
-            color: white;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
-        }
-        .panel-cuphead h2 { 
-            border-bottom: 2px solid #d32f2f; 
-            padding-bottom: 10px; 
-            margin-bottom: 20px; 
-            text-align: center;
-        }
-        input, select { 
-            width: 100%; 
-            padding: 12px; 
-            margin: 10px 0; 
-            border-radius: 8px; 
-            border: 1px solid #444; 
-            background: #222; 
-            color: white;
-        }
+        .grid-triple { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 20px; padding: 20px; max-width: 1200px; margin: 0 auto; }
+        .panel-cuphead { background: rgba(0,0,0,0.85); border: 2px solid #d32f2f; border-radius: 15px; padding: 25px; color: white; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+        .panel-cuphead h2 { border-bottom: 2px solid #d32f2f; padding-bottom: 10px; margin-bottom: 20px; text-align: center; }
+        input, select { width: 100%; padding: 12px; margin: 10px 0; border-radius: 8px; border: 1px solid #444; background: #222; color: white; }
         .lista-datos { list-style: none; padding: 0; margin-top: 20px; max-height: 400px; overflow-y: auto; }
-        .lista-datos li { 
-            background: rgba(255,255,255,0.05); 
-            padding: 15px; 
-            margin-bottom: 12px; 
-            border-radius: 8px; 
-            border-left: 5px solid #d32f2f; 
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+        .lista-datos li { background: rgba(255,255,255,0.05); padding: 15px; margin-bottom: 12px; border-radius: 8px; border-left: 5px solid #d32f2f; display: flex; flex-direction: column; gap: 10px; }
         .btn-edit { background: #f39c12; color: white; border: none; padding: 8px; cursor: pointer; border-radius: 5px; flex: 1; }
         .btn-del { background: #e74c3c; color: white; border: none; padding: 8px; cursor: pointer; border-radius: 5px; flex: 1; }
         .btn-cancelar { background: #7f8c8d; width: 100%; margin-top: 5px; display: none; color: white; border: none; padding: 10px; border-radius: 8px; cursor: pointer; }
@@ -59,17 +22,17 @@
         <h1>SISTEMA DE CONTROL ISLAS INKWELL</h1>
     </header>
 
-    <nav style="text-align: center; padding: 15px; background: rgba(0,0,0,0.2); margin-bottom: 20px;">
-        <a href="index.html">Inicio</a> | 
-        <a href="tabla.html">Tabla</a> | 
-        <a href="formulario.html">Formulario</a> | 
-        <a href="multimedia.html">Multimedia</a> | 
-        <a href="historia.html">Historia</a> | 
-        <a href="crud.html" style="font-weight: bold; color: #d32f2f;">CRUD</a>
+    <nav>
+        <a href="/index.html">Inicio</a> | 
+        <a href="/tabla.html">Tabla</a> | 
+        <a href="/formulario.html">Formulario</a> | 
+        <a href="/multimedia.html">Multimedia</a> | 
+        <a href="/historia.html">Historia</a> | 
+        <a href="/crud.html" style="font-weight: bold; color: #ffca28;">CRUD</a>
     </nav>
     
     <div class="grid-triple">
-        <section class="panel-cuphead" id="sec-inv">
+        <section class="panel-cuphead" id="sec-p">
             <h2>🛒 Tienda Porkind</h2>
             <input type="hidden" id="pId">
             <input type="text" id="pNombre" placeholder="Nombre del Objeto">
@@ -79,7 +42,7 @@
             <ul id="listaInv" class="lista-datos"></ul>
         </section>
 
-        <section class="panel-cuphead" id="sec-exp">
+        <section class="panel-cuphead" id="sec-e">
             <h2>🎮 Registro de Batallas</h2>
             <input type="hidden" id="eId">
             <input type="text" id="eJugador" placeholder="Nombre del Jugador">
@@ -89,7 +52,7 @@
             <ul id="listaExp" class="lista-datos"></ul>
         </section>
 
-        <section class="panel-cuphead" id="sec-jef">
+        <section class="panel-cuphead" id="sec-j">
             <h2>👾 Lore de Jefes</h2>
             <input type="hidden" id="jId">
             <input type="text" id="jNombre" placeholder="Nombre del Jefe">
@@ -106,10 +69,11 @@
     </div>
 
     <script>
-        // Si ya subiste tu servidor a Render, cambia 'localhost:3000' por tu URL de Render
+        // DETECCIÓN AUTOMÁTICA DE URL (Cambia 'cuphead-8l18' por el nombre real de tu app en Render)
+        const RENDER_URL = "https://cuphead-8l18.onrender.com/api";
         const API = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' 
                     ? 'http://localhost:3000/api' 
-                    : 'https://TU-APP-EN-RENDER.onrender.com/api';
+                    : RENDER_URL;
 
         async function cargarTodo() {
             const fetchAndRender = async (col, listId, pre, f1, f2) => {
@@ -117,19 +81,16 @@
                     const res = await fetch(`${API}/${col}`);
                     const data = await res.json();
                     const lista = document.getElementById(listId);
-                    
                     lista.innerHTML = data.map(item => `
                         <li>
                             <div><strong>${item[f1]}</strong></div>
-                            <div style="font-size: 0.9em; color: #ccc;">${f1 === 'nombre' && col === 'inventario' ? 'Precio: ' + item[f2] + ' monedas' : item[f2]}</div>
+                            <div style="font-size: 0.9em; color: #ccc;">${f2}: ${item[f2]}</div>
                             <div class="acciones-fila">
-                                <button class="btn-edit" onclick="editar('${pre}', ${JSON.stringify(item).replace(/"/g, '&quot;')})">Editar</button>
+                                <button class="btn-edit" onclick='editar("${pre}", ${JSON.stringify(item)})'>Editar</button>
                                 <button class="btn-del" onclick="eliminar('${col}', '${item._id}')">Eliminar</button>
                             </div>
                         </li>`).join('');
-                } catch (error) {
-                    console.error(`Error cargando ${col}:`, error);
-                }
+                } catch (e) { console.error("Error cargando " + col, e); }
             };
             fetchAndRender('inventario', 'listaInv', 'p', 'nombre', 'precio');
             fetchAndRender('experiencias', 'listaExp', 'e', 'jugador', 'jefe');
@@ -137,29 +98,25 @@
         }
 
         async function procesar(col) {
-            const pre = col[0];
+            const pre = col === 'inventario' ? 'p' : col === 'experiencias' ? 'e' : 'j';
             const id = document.getElementById(pre + 'Id').value;
             const payload = col === 'inventario' ? { nombre: document.getElementById('pNombre').value, precio: document.getElementById('pPrecio').value } :
                             col === 'experiencias' ? { jugador: document.getElementById('eJugador').value, jefe: document.getElementById('eJefe').value } :
                             { nombre: document.getElementById('jNombre').value, isla: document.getElementById('jIsla').value };
 
-            // Validación simple
-            if(!Object.values(payload).every(val => val !== "")) {
-                alert("Por favor, llena todos los campos.");
-                return;
-            }
+            if(!Object.values(payload).every(val => val !== "")) return alert("Llena todos los campos");
 
             try {
-                await fetch(id ? `${API}/${col}/${id}` : `${API}/${col}`, {
-                    method: id ? 'PUT' : 'POST',
+                const method = id ? 'PUT' : 'POST';
+                const url = id ? `${API}/${col}/${id}` : `${API}/${col}`;
+                await fetch(url, {
+                    method: method,
                     headers: {'Content-Type': 'application/json'},
                     body: JSON.stringify(payload)
                 });
                 cancelar(pre);
                 cargarTodo();
-            } catch (error) {
-                alert("Error al procesar la solicitud. Verifica que el servidor esté encendido.");
-            }
+            } catch (e) { alert("Error al conectar con el Casino"); }
         }
 
         function editar(pre, item) {
@@ -167,20 +124,14 @@
             if(pre==='p'){ document.getElementById('pNombre').value=item.nombre; document.getElementById('pPrecio').value=item.precio; }
             if(pre==='e'){ document.getElementById('eJugador').value=item.jugador; document.getElementById('eJefe').value=item.jefe; }
             if(pre==='j'){ document.getElementById('jNombre').value=item.nombre; document.getElementById('jIsla').value=item.isla; }
-            
             document.getElementById(pre + 'Btn').innerText = "Actualizar Registro";
             document.getElementById(pre + 'Cancel').style.display = "block";
-            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         async function eliminar(col, id) {
-            if(confirm('¿Deseas eliminar este contrato de forma permanente?')) {
-                try {
-                    await fetch(`${API}/${col}/${id}`, { method: 'DELETE' });
-                    cargarTodo();
-                } catch (error) {
-                    alert("No se pudo eliminar el registro.");
-                }
+            if(confirm('¿Eliminar contrato?')) {
+                await fetch(`${API}/${col}/${id}`, { method: 'DELETE' });
+                cargarTodo();
             }
         }
 
@@ -188,10 +139,8 @@
             document.getElementById(pre + 'Id').value = "";
             const inputs = document.querySelectorAll(`#sec-${pre} input, #sec-${pre} select`);
             inputs.forEach(i => i.value = "");
-            
-            const btnText = pre==='p' ? "Guardar Contrato" : pre==='e' ? "Registrar Batalla" : "Añadir al Lore";
-            document.getElementById(pre + 'Btn').innerText = btnText;
             document.getElementById(pre + 'Cancel').style.display = "none";
+            document.getElementById(pre + 'Btn').innerText = "Guardar";
         }
 
         window.onload = cargarTodo;

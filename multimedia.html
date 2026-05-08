@@ -2,30 +2,54 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Multimedia</title>
+    <title>Multimedia | Galería Inkwell</title>
     <link rel="stylesheet" href="/css/estilos.css">
 </head>
 <body class="contenedor-layout">
-    <header><h1>GALERÍA Y CINE</h1>
-   <button id="theme-toggle">Modo Obscuro</button>
+    <header class="header-principal">
+        <h1>GALERÍA Y CINE</h1>
+        <button id="theme-toggle">Modo Obscuro</button>
     </header>
-    <nav><a href="index.html">Inicio</a> | <a href="tabla.html">Tabla</a> | <a href="formulario.html">Formulario</a> | <a href="multimedia.html">Multimedia</a> | <a href="historia.html">Historia</a> | <a href="crud.html">CRUD</a></nav>
+
+    <nav>
+        <a href="/index.html">Inicio</a> | 
+        <a href="/tabla.html">Tabla</a> | 
+        <a href="/formulario.html">Formulario</a> | 
+        <a href="/multimedia.html">Multimedia</a> | 
+        <a href="/historia.html">Historia</a> | 
+        <a href="/crud.html">CRUD</a>
+    </nav>
+
     <main>
         <section class="intro-box">
             <h2>Galería Interactiva</h2>
-            <img id="main-gal" src="img/cuphead1.jpg">
-            <div style="display:flex; gap:10px; justify-content:center">
-                <img src="img/cuphead1.jpg" style="width:50px" onclick="document.getElementById('main-gal').src=this.src">
-                <img src="img/cuphead2.jpg" style="width:50px" onclick="document.getElementById('main-gal').src=this.src">
-                <img src="img/cuphead3.jpg" style="width:50px" onclick="document.getElementById('main-gal').src=this.src">
+            <div style="text-align:center;">
+                <img id="main-gal" src="/img/cuphead1.jpg" style="width:100%; max-width:600px; border-radius:15px; border:3px solid #d32f2f;">
+            </div>
+            <div style="display:flex; gap:10px; justify-content:center; margin-top:20px;">
+                <img src="/img/cuphead1.jpg" style="width:80px; cursor:pointer; border-radius:5px;" onclick="document.getElementById('main-gal').src=this.src">
+                <img src="/img/cuphead2.jpg" style="width:80px; cursor:pointer; border-radius:5px;" onclick="document.getElementById('main-gal').src=this.src">
+                <img src="/img/cuphead3.jpg" style="width:80px; cursor:pointer; border-radius:5px;" onclick="document.getElementById('main-gal').src=this.src">
             </div>
         </section>
+
         <section class="intro-box">
             <h3>Audio y Video</h3>
-            <audio controls><source src="audio/soundtrack_ Ruse Of An Ooze.mp3"></audio>
-            <video controls width="100%"><source src="video/trailerxbox_cuphead.mp4"></video>
+            <p>Escucha el soundtrack oficial:</p>
+            <audio controls style="width:100%; margin-bottom:20px;">
+                <source src="/audio/soundtrack_Ruse_Of_An_Ooze.mp3" type="audio/mpeg">
+            </audio>
+            <p>Tráiler Oficial:</p>
+            <video controls width="100%" style="border-radius:15px;">
+                <source src="/video/trailerxbox_cuphead.mp4" type="video/mp4">
+                Tu navegador no soporta videos.
+            </video>
         </section>
     </main>
-    <script src="script.js"></script>
+
+    <button id="btn-top">⬆️</button>
+    <footer><p>Copyright &copy; 2026 - Cuphead Fan Page Arius</p></footer>
+
+    <script src="/script.js"></script>
 </body>
 </html>

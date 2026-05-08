@@ -3,28 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <title>Cuphead | Registro de Deudores</title>
-   <link rel="stylesheet" href="/css/estilos.css">
+    <link rel="stylesheet" href="/css/estilos.css">
 </head>
 <body class="contenedor-layout">
     <header class="header-principal">
-        <h1>CONTRATO CON EL CASION</h1>
+        <h1>CONTRATO CON EL CASINO</h1>
         <button id="theme-toggle">Modo Obscuro</button>
     </header>
 
-       <nav><a href="index.html">Inicio</a> | <a href="tabla.html">Tabla</a> | <a href="formulario.html">Formulario</a> | <a href="multimedia.html">Multimedia</a> | <a href="historia.html">Historia</a> | <a href="crud.html">CRUD</a></nav>
-
+    <nav>
+        <a href="/index.html">Inicio</a> | 
+        <a href="/tabla.html">Tabla</a> | 
+        <a href="/formulario.html">Formulario</a> | 
+        <a href="/multimedia.html">Multimedia</a> | 
+        <a href="/historia.html">Historia</a> | 
+        <a href="/crud.html">CRUD</a>
+    </nav>
 
     <div class="container">
         <main class="seccion-principal">
             <h2>Únete a las Islas Inkwell</h2>
-            <p style="margin-bottom: 20px;">Firma este contrato para registrarte en la base de datos del Casino del Diablo.</p>
-
             <section class="vinculos-box">
-                <form id="cuphead-form" onsubmit="alert('¡Contrato firmado! El Diablo te contactará pronto...'); return false;">
+                <form id="cuphead-form" onsubmit="enviarDatos(event)">
                     <fieldset style="border: 2px solid #000; padding: 20px; border-radius: 10px;">
-                        <legend style="font-weight: bold; padding: 0 10px;"> FIRMA TU CONTRATO </legend>
+                        <legend> FIRMA TU CONTRATO </legend>
                         
-                        <label for="nom">Nombre de Deudor (ID):</label>
+                        <label for="nom">Nombre de Deudor:</label>
                         <input type="text" id="nom" required placeholder="Ej: Player1" style="width: 100%; margin-bottom: 15px;">
                         
                         <label for="mail">Correo Electrónico:</label>
@@ -38,12 +42,6 @@
                             <option>Inkwell Hell</option>
                         </select>
 
-                        <label for="juego">Jefe Favorito:</label>
-                        <input type="text" id="juego" placeholder="Ej: King Dice, Baroness Von Bon Bon" style="width: 100%; margin-bottom: 15px;">
-
-                        <label for="msg">Mensaje para el Diablo:</label>
-                        <textarea id="msg" rows="4" placeholder="¿Por qué deberías conservar tu alma?" style="width: 100%; margin-bottom: 15px;"></textarea>
-
                         <button type="submit" class="boton" style="width: 100%;">Firmar Contrato</button>
                     </fieldset>
                 </form>
@@ -53,42 +51,27 @@
 
     <button id="btn-top">⬆️</button>
     
-    <footer>
-        <p>Copyright &copy; 2026 - Cuphead Fan Page Arius</p>
-    </footer>
-
-    <script src="script.js"></script>
-
+    <script src="/js/scripts.js" defer></script>
     <script>
-    async function enviarDatos(event) {
-        event.preventDefault(); // Evita que la página se recargue
+        async function enviarDatos(event) {
+            event.preventDefault();
+            const RENDER_URL = "https://cuphead-8l18.onrender.com/api/experiencias";
+            const url = window.location.hostname === 'localhost' ? 'http://localhost:3000/api/experiencias' : RENDER_URL;
 
-        const datos = {
-            nombre: document.getElementById('nom').value, // Asegúrate que los IDs coincidan
-            correo: document.getElementById('mail').value,
-            isla: document.getElementById('isla-select').value,
-            jefe: document.getElementById('juego').value,
-            mensaje: document.getElementById('msg').value
-        };
+            const datos = {
+                jugador: document.getElementById('nom').value,
+                jefe: document.getElementById('isla-select').value // O el campo que prefieras mapear
+            };
 
-        try {
-            // Aquí pones la ruta de tu API (la misma lógica de arriba)
-            const url = window.location.hostname === 'localhost' ? 'http://localhost:3000/api/experiencias' : 'TU_URL_DE_RENDER/api/experiencias';
-            
-            const respuesta = await fetch(url, {
-                method: 'POST',
-                headers: {'Content-Type': 'application/json'},
-                body: JSON.stringify(datos)
-            });
-
-            if(respuesta.ok) {
-                alert('✅ ¡Contrato firmado y guardado en Atlas!');
-                document.getElementById('cuphead-form').reset();
-            }
-        } catch (error) {
-            alert('❌ Error al conectar con el Casino (Servidor)');
+            try {
+                const res = await fetch(url, {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(datos)
+                });
+                if(res.ok) alert("✅ ¡Contrato firmado! El Diablo guardó tu alma.");
+            } catch (e) { alert("❌ Error de conexión"); }
         }
-    }
-</script>
+    </script>
 </body>
 </html>
