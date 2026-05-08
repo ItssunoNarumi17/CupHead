@@ -2,7 +2,7 @@
 <html lang="es">
 <head>
     <meta charset="UTF-8">
-    <title>Cuphead | Guía de Jefes</title>
+    <title>Cuphead | Guía de Jefes por Isla</title>
     <link rel="stylesheet" href="/css/estilos.css">
 </head>
 <body class="contenedor-layout">
@@ -23,61 +23,82 @@
     <main class="container">
         <section class="seccion-principal">
             <h2>Organización Geográfica de Jefes</h2>
-            <div style="overflow-x:auto;">
-                <table border="1" style="width:100%; border-collapse: collapse; margin-top: 20px; text-align: center;">
-                    <thead style="background-color: #d32f2f; color: white;">
-                        <tr>
-                            <th>INKWELL ISLE I</th>
-                            <th>INKWELL ISLE II</th>
-                            <th>INKWELL ISLE III</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr style="vertical-align: top;">
-                            <td>
-                                <ul style="list-style: none; padding: 10px; text-align: left;">
-                                    <li>• The Root Pack</li>
-                                    <li>• Goopy Le Grande</li>
-                                    <li>• Hilda Berg</li>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul style="list-style: none; padding: 10px; text-align: left;">
-                                    <li>• Baroness Von Bon Bon</li>
-                                    <li>• Beppi The Clown</li>
-                                    <li>• Djimmi The Great</li>
-                                </ul>
-                            </td>
-                            <td>
-                                <ul style="list-style: none; padding: 10px; text-align: left;">
-                                    <li>• Rumor Honeybottoms</li>
-                                    <li>• Captain Brineybeard</li>
-                                    <li>• Dr. Kahl's Robot</li>
-                                </ul>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td><img src="/img/isla1.jpg" style="width: 100%; max-width: 150px; padding:5px;"></td>
-                            <td><img src="/img/isla2.jpg" style="width: 100%; max-width: 150px; padding:5px;"></td>
-                            <td><img src="/img/isla3.jpg" style="width: 100%; max-width: 150px; padding:5px;"></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            <p>Consulta a los deudores organizados por cada una de las regiones de las Islas Inkwell.</p>
+
+            <table border="1" style="width:100%; border-collapse: collapse; margin-top: 20px; text-align: center;">
+                <thead style="background-color: #d32f2f; color: white;">
+                    <tr>
+                        <th>INKWELL ISLE I</th>
+                        <th>INKWELL ISLE II</th>
+                        <th>INKWELL ISLE III</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr style="vertical-align: top;">
+                        <td>
+                            <ul style="list-style: none; padding: 10px; text-align: left;">
+                                <li>• The Root Pack</li>
+                                <li>• Goopy Le Grande</li>
+                                <li>• Hilda Berg</li>
+                                <li>• Cagney Carnation</li>
+                                <li>• Ribby and Croaks</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul style="list-style: none; padding: 10px; text-align: left;">
+                                <li>• Baroness Von Bon Bon</li>
+                                <li>• Beppi The Clown</li>
+                                <li>• Djimmi The Great</li>
+                                <li>• Grim Matchstick</li>
+                                <li>• Wally Warbles</li>
+                            </ul>
+                        </td>
+                        <td>
+                            <ul style="list-style: none; padding: 10px; text-align: left;">
+                                <li>• Rumor Honeybottoms</li>
+                                <li>• Captain Brineybeard</li>
+                                <li>• Sally Stageplay</li>
+                                <li>• Werner Werman</li>
+                                <li>• Dr. Kahl's Robot</li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div class="contenedor-imagen">
+                                <img src="/img/isla1.jpg" alt="Mapa Isla 1" style="width: 100%; max-width: 200px; border: 2px solid #000;">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="contenedor-imagen">
+                                <img src="/img/isla2.jpg" alt="Mapa Isla 2" style="width: 100%; max-width: 200px; border: 2px solid #000;">
+                            </div>
+                        </td>
+                        <td>
+                            <div class="contenedor-imagen">
+                                <img src="/img/isla3.jpg" alt="Mapa Isla 3" style="width: 100%; max-width: 200px; border: 2px solid #000;">
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
         </section>
 
-        <section class="vinculos-box" style="margin-top: 40px; padding: 20px; border: 2px dashed #d32f2f; border-radius: 10px;">
+        <section class="vinculos-box" style="margin-top: 40px;">
             <h3>Encuesta de Jugador</h3>
             <label><input type="checkbox" class="quiz-check"> ¿Has jugado en modo Experto?</label><br>
             <label><input type="checkbox" class="quiz-check"> ¿Conoces a Ms. Chalice?</label><br>
             <label><input type="checkbox" class="quiz-check"> ¿Completaste el DLC?</label><br>
-            <p>Progreso de la encuesta: <strong id="quiz-counter">0</strong> de 3</p>
+            <p>Respuestas seleccionadas: <span id="quiz-counter">0</span></p>
         </section>
     </main>
 
     <button id="btn-top">⬆️</button>
-    <footer><p>Copyright &copy; 2026 - Cuphead Fan Page Arius</p></footer>
+    
+    <footer>
+        <p>Copyright &copy; 2026 - Cuphead Fan Page Arius</p>
+    </footer>
 
-    <script src="/script.js"></script>
+    <script src="/js/script.js"></script>
 </body>
 </html>
