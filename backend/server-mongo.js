@@ -5,7 +5,7 @@ const { ObjectId } = require('mongodb');
 
 const app = express();
 
-// IMPORTANTE: Esto permite que el servidor (Render/Railway) elija el puerto automáticamente
+// Render asigna el puerto automáticamente mediante process.env.PORT
 const PORT = process.env.PORT || 3000;
 
 app.use(express.json());
@@ -13,12 +13,14 @@ app.use(cors());
 
 let db;
 
-// Conexión inicial
+// Conexión inicial y arranque del servidor
 conectarDB().then(database => {
     db = database;
     app.listen(PORT, () => {
         console.log(`🚀 Servidor Cuphead corriendo en el puerto: ${PORT}`);
     });
+}).catch(err => {
+    console.error("Fallo crítico al iniciar la base de datos:", err);
 });
 
 // --- FUNCIONES GENÉRICAS PARA EL CRUD ---
@@ -37,8 +39,9 @@ const gestionarRutas = (coleccion) => {
     // Crear nuevo registro (Create)
     app.post(`/api/${coleccion}`, async (req, res) => {
         try {
-            await db.collection(coleccion).insertOne(req.body);
-            res.json({ success: true });
+            // Insertamos los datos recibidos en el cuerpo de la petición
+            const resultado = await db.collection(coleccion).insertOne(req.body);
+            res.json({ success: true, id: resultado.insertedId });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -48,12 +51,20 @@ const gestionarRutas = (coleccion) => {
     app.put(`/api/${coleccion}/:id`, async (req, res) => {
         try {
             const id = req.params.id;
-            const { _id, ...datosNuevos } = req.body; // Quitamos el _id para evitar conflictos con Mongo
-            await db.collection(coleccion).updateOne(
+            
+            // Verificamos que el ID sea un ObjectId válido de MongoDB
+            if (!ObjectId.isValid(id)) {
+                return res.status(400).json({ error: "ID no válido" });
+            }
+
+            const { _id, ...datosNuevos } = req.body; 
+            
+            const resultado = await db.collection(coleccion).updateOne(
                 { _id: new ObjectId(id) }, 
                 { $set: datosNuevos }
             );
-            res.json({ success: true });
+
+            res.json({ success: true, modifiedCount: resultado.modifiedCount });
         } catch (error) {
             res.status(500).json({ error: error.message });
         }
@@ -62,7 +73,12 @@ const gestionarRutas = (coleccion) => {
     // Eliminar registro (Delete)
     app.delete(`/api/${coleccion}/:id`, async (req, res) => {
         try {
-            await db.collection(coleccion).deleteOne({ _id: new ObjectId(req.params.id) });
+            const id = req.params.id;
+            if (!ObjectId.isValid(id)) {
+                return res.status(400).json({ error: "ID no válido" });
+            }
+
+            await db.collection(coleccion).deleteOne({ _id: new ObjectId(id) });
             res.json({ success: true });
         } catch (error) {
             res.status(500).json({ error: error.message });
@@ -70,7 +86,7 @@ const gestionarRutas = (coleccion) => {
     });
 };
 
-// Activar las rutas para las colecciones de tu proyecto
+// Rutas activas
 gestionarRutas('inventario');
 gestionarRutas('experiencias');
 gestionarRutas('jefes');
